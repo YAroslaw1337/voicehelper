@@ -1,16 +1,11 @@
 import speech_recognition
 import webbrowser
 import os 
-import subprocess as sp
+print('Я могу поздороватся \n могу влючить видео , открыть ютуб \n могу запускать приложения такие как grounded, undertale, steam , spotify') 
+print('Ver№1')
+
 
 sr = speech_recognition.Recognizer()
-# commands = {
-#     ("привет", "зраствуй", "зрайствуй", "hello"): hello,
-#     ("'добавить делa", "добавь задачу", "новое дело",): create_task,
-#     ("открой youtube", "youtube", "открыт youtube",): search_for_video_on_youtube,
-#     ("открой спотифай", "открыть спотифай", "открой spotfiy", "открыть spotfiy"): open_spotify,
-#     ("открой стим", "открыть steam"): open_steam,
-# }
 
 game = True
 
@@ -35,25 +30,41 @@ def create_task():
     return f'дело {query} добавлено'
 
 
-def search_for_video_on_youtube():
+def open_youtube():
     webbrowser.open('https://www.youtube.com/')
+def search_for_video_on_youtube():
+    query = listen_fun()
+    query2 = query.split()
+    query2 = list(query2)
+    serch = query2[-1]
+    url = "https://www.youtube.com/results?search_query=" + serch
+    webbrowser.get().open(url)
 
 def main():
     query = listen_fun()
-    print(query.split())
-    if query == 'привет':
+    query2 = query.split()
+    query2 = list(query2)
+    serch = query2[-1]
+    print(query) 
+    print(serch)
+    if query == 'привет' or query =='здраствуй':
          print(hello())
     elif query == 'добавить делa' or query == 'добавь задачу':
          print(create_task())
-    elif query == 'открой youtube':
+    elif query == 'найди видео в youtube'or query == 'найти видео в youtube':
         search_for_video_on_youtube()
+    elif query == 'открой youtube':
+        open_youtube()
     elif query == 'открой андертейл' or query == 'открой undertale':
         os.system('D:/downloat/steam/steamapps/common/Undertale/UNDERTALE.exe')
     elif query == 'открой спотифай' or query == 'открой spotify':
         os.system("C:/Users/skele/AppData/Roaming/Spotify/Spotify.exe")
-    elif query == 'открой стим' :
+    elif query == 'открой стим' or query == 'открой steam':
         os.system("D:\downloat\steam\steam.exe")
-        
+    elif query == 'открой граундед' or query == 'открой grounded':
+        os.system("D:/downloat/Grounded/Grounded.exe")
+    elif query == 'открой muse dash' or query == 'открой муздэш':
+        os.system("D:/downloat/steam/steamapps/common/Muse Dash/MuseDash.exe")    
 
 while True:
 
