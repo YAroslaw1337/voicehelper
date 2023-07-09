@@ -1,14 +1,40 @@
 import speech_recognition
+import pyautogui as pg
 import webbrowser
 import os 
-print('Я могу поздороватся \n могу влючить видео , открыть ютуб \n могу запускать приложения такие как grounded, undertale, steam , spotify') 
-print('Ver№1')
+import time
 
 
+
+comnds = 'останови/играй музыку \n найди(в поиске пк)\n найди видео в youtube \n заново \n открой ютуб\nнайди в интернете/поиск в интернете\n открой undertale/spotify/steam/grounded\n останови музыку/играй музыку',
+print('Ver№3')
+
+commandors = {
+    'comands' : {
+    'search_in_internet':('найди в интернете', 'найти в интернете', 'поиск в интернете'),
+    'search_for_video_on_youtube':('найди в ютубе', 'найди видео в youtube', 'найти видео в youtube', 'найти в youtube', 'найди в youtube'),
+    'open_youtube':('открой ютуб', 'открой youtube'),
+    'repit':('заново', 'поновой', 'сначала'),
+    'cmnds':('команды','покажи команды'),
+        
+    'mic':('микрофон'),
+    
+    'spotify':('открой спотифай','открой spotify', 'открыть спотифай','открыть spotify'),
+    'music':('играй музыку', 'останови музыку'),
+    
+    'ctimes':('время', 'сколько время', 'какой сейчас час'),
+    'search_in_pk':('найди', 'найти'),
+
+    'undertale':('открой undertale', 'открой андертейл', 'открыть undertale','открыть андертейл'),
+    'grounded':('открой grounded', 'открой граундед', 'открыть grounded','открыть граундед'),
+    'steam':('открой стим','открой steam','открыть стим','открыть steam'),
+    
+    'sleep':('в спящий режим','выключить пк', 'выключить компьютер')
+    }
+}
+
+    
 sr = speech_recognition.Recognizer()
-
-game = True
-
 def listen_fun():
     try:
         with speech_recognition.Microphone() as mic:
@@ -19,54 +45,100 @@ def listen_fun():
     except speech_recognition.UnknownValueError:
         return 'не понятно'
 
-def hello():
-    return 'привет аут'
 
-def create_task():
-    print('новое дело')
+def sleep():
+    os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
+
+def cmnds():
+    print(comnds)
+
+def music():
+    os.system("C:/Users/skele/AppData/Roaming/Spotify/Spotify.exe")
+    pg.typewrite(['space'])
+def spotify():
+    video_path = os.getcwd("AppData/Roaming/Spotify/Spotify.exe")
+    print(video_path)
+    os.system(video_path)
+
+
+def grounded():
+    os.system("D:/downloat/Grounded/Grounded.exe")
+    
+def undertale():
+    os.system('D:/downloat/steam/steamapps/common/Undertale/UNDERTALE.exe')   
+
+def steam():
+    os.system("D:\downloat\steam\steam.exe")
+
+
+def ctimes():
+    sec = time.time()
+    local = time.ctime(sec)
+    print(local)
+
+def search_in_pk():
     query = listen_fun()
-    with open('todo-list.txt', 'a') as file:
-        file.write(f'{query}\n')
-    return f'дело {query} добавлено'
+    query2 = query.split()
+    query2 = list(query2)
+    serch = str(query)
+    if serch == 'не понятно':
+        print('не понятно')
+    else:
+        pg.press('win')
+        pg.write(serch)
+        pg.moveTo(200, 200)
+
+def mic():
+    pg.press(['f6']) 
 
 
 def open_youtube():
     webbrowser.open('https://www.youtube.com/')
+
 def search_for_video_on_youtube():
     query = listen_fun()
     query2 = query.split()
     query2 = list(query2)
-    serch = query2[-1]
-    url = "https://www.youtube.com/results?search_query=" + serch
-    webbrowser.get().open(url)
+    serch = str(query)
+    if serch == 'не понятно':
+        print('не понятно')
+    else:
+        url = "https://www.youtube.com/results?search_query=" + serch
+        webbrowser.get().open(url)
+
+def search_in_internet():
+    query = listen_fun()
+    query2 = query.split()
+    query2 = list(query2)
+    serch = str(query)
+    if serch == 'не понятно':
+        print('не понятно')
+    else:
+        url = "https://www.google.com/search?q=" + serch
+        webbrowser.get().open(url)
+
+def repit():
+    pg.press(['0'])
+
 
 def main():
     query = listen_fun()
     query2 = query.split()
     query2 = list(query2)
-    serch = query2[-1]
-    print(query) 
-    print(serch)
-    if query == 'привет' or query =='здраствуй':
-         print(hello())
-    elif query == 'добавить делa' or query == 'добавь задачу':
-         print(create_task())
-    elif query == 'найди видео в youtube'or query == 'найти видео в youtube':
-        search_for_video_on_youtube()
-    elif query == 'открой youtube':
-        open_youtube()
-    elif query == 'открой андертейл' or query == 'открой undertale':
-        os.system('D:/downloat/steam/steamapps/common/Undertale/UNDERTALE.exe')
-    elif query == 'открой спотифай' or query == 'открой spotify':
-        os.system("C:/Users/skele/AppData/Roaming/Spotify/Spotify.exe")
-    elif query == 'открой стим' or query == 'открой steam':
-        os.system("D:\downloat\steam\steam.exe")
-    elif query == 'открой граундед' or query == 'открой grounded':
-        os.system("D:/downloat/Grounded/Grounded.exe")
-    elif query == 'открой muse dash' or query == 'открой муздэш':
-        os.system("D:/downloat/steam/steamapps/common/Muse Dash/MuseDash.exe")    
+    print(query)
+    print('   ')  
+    for k, v in commandors['comands'].items():
+        if query in v:
+            globals()[k]()
 
-while True:
 
-    if __name__ == '__main__':
+
+
+query = listen_fun()
+
+
+while True: 
+    if  __name__ == '__main__':
         main()
+
+
