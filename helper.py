@@ -3,11 +3,9 @@ from pc import *
 from browser import *
 # from fuzzywuzzy import process
 # from fuzzywuzzy import fuzz
-
-
 import speech_recognition
 
-print('Ver№4')
+print('Ver№5')
 
 sr = speech_recognition.Recognizer()
 def listen_fun():
@@ -21,38 +19,30 @@ def listen_fun():
         return 'не понятно'
 
 def main():
-    # best_sim = 0
-    string =''
+    string = ''
     query = listen_fun()
     query2 = query.split()
-    req = query2[-1]
-    if len(query2) > 1:
-        query2.pop(-1)
-    string = ' '.join(query2) 
     print(query)
     print('  ')
-
-    # for k, v in commandors['comands'].items():
-    #     for vs in v:
-    #         similarity = fuzz.ratio(string, vs)
-    #         if similarity >= best_sim:
-    #             best_sim = similarity
-    #             best_match = (k, vs)
-    
-    # if best_sim >=70:
-    #     print(query)
-    #     print('  ')
-    #     print(f'Команду распознано как: {best_match}')
-    # else:
-    #     print('Команду не распознано')
     
     for k, v in commandors['comands'].items():
-        if string in v:
-            globals()[k](req)
+        for cml in v:
+            cmls = cml.split()
+            if all(word in query2 for word in cmls):
+                query2 = [word for word in query2 if word not in cmls]                     
+                string = ' '.join(query2).strip()
+                req = string
+
+                if k in commandors['required'] and not req:
+                    print('нужен запрос')
+                    continue
+                
+                globals()[k](req)
+                break
 
 
-def cmnds(req):
-    print(comnds)
+# def cmnds(req):
+#     print(comnds)
 
 query = listen_fun()
 
