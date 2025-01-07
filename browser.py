@@ -10,21 +10,15 @@ def search_for_video_on_youtube(req):
 def repit(req):
     pg.press(['0'])
 
+def f_screen(req):
+    pg.press(['f'])
+
 def pars_anime(req):
     r = requests.get('https://animego.org')
     ht = BS(r.content, 'lxml')
     ongoing = ht.find_all('div', class_= "h5 font-weight-normal mb-2 card-title carousel-item-title text-truncate")
     new_series = ht.find_all('div', class_= "list-group-item list-group-item-action border-left-0 border-right-0 border-bottom-0")
-    if query == 'аниме новинки' or query == 'новинки аниме':
-        print('ОНГОИНГИ')
-        for a in ongoing:
-            print(a.text)
-            print(' ')
-    else:
-        print('РАПИСАНИЕ:')     
-        for a in new_series:
-            print(a.text)
-            print(' ')
+
 
 def find_anime(req):
     url = "https://animego.org/search/all?q=" + req
